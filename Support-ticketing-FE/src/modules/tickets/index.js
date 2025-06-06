@@ -1,10 +1,12 @@
 export default [
   {
-    path: '/tickets',
-    component: () => import('./pages/TicketListPage.vue')
+    path: 'tickets',
+    component: () => import('./pages/TicketListPage.vue'),
+    meta: { requiresAuth: true }
   },
   {
-    path: '/create-ticket',
-    component: () => import('./pages/CreateTicketPage.vue')
+    path: 'tickets/create',
+    component: () => import('./pages/CreateTicketPage.vue'),
+    meta: { requiresAuth: true }
   }
 ]

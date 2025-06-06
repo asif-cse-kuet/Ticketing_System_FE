@@ -9,7 +9,7 @@
       clickable
       :active="isExactActive"
       active-class="bg-grey-5 text-black"
-      @click="navigate"
+      @click="$emit('click')"
     >
       <q-item-section v-if="props.icon" avatar>
         <q-icon :name="props.icon" />
