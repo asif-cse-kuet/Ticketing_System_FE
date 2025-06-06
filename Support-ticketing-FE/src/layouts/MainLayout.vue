@@ -53,19 +53,30 @@ const linksList = [
   {
     title: 'Home',
     icon: 'home',
-    link: ''
+    link: '/'
+  },
+  {
+    title: 'Login',
+    icon: 'login',
+    link: '/login'
+  },
+  {
+    title: 'Register',
+    icon: 'person_add',
+    link: '/register'
   },
   {
     title: 'Chat Support',
     icon: 'chat',
-    link: ''
+    link: '/chat'
   },
   {
     title: 'Documentation',
     icon: 'code',
     link: 'https://github.com/asif-cse-kuet/Ticketing_System_FE'
-  },
+  }
 ]
+
 
 const leftDrawerOpen = ref(false)
 
