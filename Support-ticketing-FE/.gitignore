@@ -1,11 +1,13 @@
 .DS_Store
 .thumbs.db
 node_modules
+Thumbs.db
 
 # Quasar core related directories
 .quasar
 /dist
 /quasar.config.*.temporary.compiled*
+/.output
 
 # Cordova related directories and files
 /src-cordova/node_modules
@@ -31,3 +33,16 @@ yarn-error.log*
 
 # local .env files
 .env.local*
+.env
+.env.*
+*.local
+
+# Node modules
+/node_modules
+
+# Build output
+/build
+
+# Test Coverage
+/coverage
+
