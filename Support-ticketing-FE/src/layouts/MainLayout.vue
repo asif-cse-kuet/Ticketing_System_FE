@@ -66,7 +66,8 @@ const linksList = computed(() => {
   ]
 
   const externalLinks = [
-    { title: 'Documentation', icon: 'code', link: 'https://github.com/asif-cse-kuet/Ticketing_System_FE' }
+    { title: 'Documentation', icon: 'code', link: '/docs' }
+
   ]
 
   const guestLinks = [
