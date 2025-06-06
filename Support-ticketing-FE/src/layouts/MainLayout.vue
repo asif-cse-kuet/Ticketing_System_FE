@@ -97,7 +97,7 @@ function toggleLeftDrawer () {
 async function handleLinkClick (link) {
   const currentPath = router.currentRoute.value.fullPath
   if (link.link === currentPath) {
-    leftDrawerOpen.value = false
+    leftDrawerOpen.value = true
     return
   }
   if (link.link === '__logout__') {

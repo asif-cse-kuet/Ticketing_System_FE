@@ -3,7 +3,7 @@
     v-if="!isExternal"
     :to="props.link"
     custom
-    v-slot="{ navigate, isExactActive }"
+    v-slot="{ isExactActive }"
   >
     <q-item
       clickable
