@@ -1,37 +1,38 @@
-//Comments are for self-reference and clarity
-// This file sets up an Axios client for making HTTP requests to the API
-// It includes base URL, credentials, headers, and interceptors for requests and responses
-
 import axios from 'axios'
+import { useAuthStore } from 'src/modules/auth/stores/authStore'
 
-const client = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+export const client = axios.create({
+  baseURL: import.meta.env.VITE_API_URL_V4 || 'http://localhost:8000/api',
   withCredentials: true,
   headers: {
     Accept: 'application/json'
   }
 })
 
+export const clientCSRF = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/',
+  withCredentials: true,
+  headers: {
+    Accept: 'application/json'
+  }
+})
 
-client.interceptors.request.use(
-  (config) => {
-    // For injecting tokens
-    return config
-  },
-  (error) => Promise.reject(error)
-)
+// Inject Bearer token for authenticated requests
+client.interceptors.request.use(config => {
+  const authStore = useAuthStore()
+  const token = authStore.apiToken
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
 
 client.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    // Global error handling (e.g. unauthorized)
-    if (error.response && error.response.status === 401) {
-      console.warn('Unauthorized: Logging out...')
+  response => response,
+  error => {
+    if (error.response?.status === 401) {
+      console.warn('Unauthorized Access!')
     }
     return Promise.reject(error)
   }
 )
-
-export default function () {
-  return client
-}

@@ -1,40 +1,38 @@
 import { defineStore } from 'pinia'
 import authService from '../services/authService'
+import { useStorage } from '@vueuse/core'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    user: null
+    user: null,
+    apiToken: useStorage('api_token', '')
   }),
 
   actions: {
-    async login (credentials) {
+    ...authService,
+
+    async fetchUser () {
       try {
-        const response = await authService.login(credentials)
-        this.user = response.data.user || null
+        const response = await this.getCurrentUser()
+        this.setUser(response)
         return true
-      } catch (err) {
-        console.error(err)
+      } catch (err){
+        console.log("Session Expired", err)
+        this.clearToken()
         return false
       }
     },
 
-    async logout () {
-      try {
-        await authService.logout()
-        this.user = null
-      } catch (err) {
-        console.error(err)
-      }
+    setToken (token) {
+      this.apiToken = token
     },
 
-    async fetchUser () {
-      try {
-        const res = await authService.getCurrentUser()
-        this.user = res.data
-      } catch (err) {
-        this.user = null
-        console.error('Failed to fetch user:', err)
-      }
+    clearToken () {
+      this.apiToken = ''
+    },
+
+    setUser(userDetails){
+      this.user = userDetails
     }
   }
 })

@@ -39,27 +39,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import TicketForm from '../components/TicketForm.vue'
+import { ticketService } from 'src/services/tickets'
 
 const showForm = ref(false)
+const tickets = ref([])
 
-const tickets = ref([
-  {
-    id: 1,
-    subject: 'Issue A',
-    category: 'Technical',
-    priority: 'High',
-    status: 'open'
-  },
-  {
-    id: 2,
-    subject: 'Billing Query',
-    category: 'Billing',
-    priority: 'Medium',
-    status: 'closed'
+const fetchTickets = async () => {
+  try {
+    const { data } = await ticketService.getAll()
+    tickets.value = data.tickets
+  } catch (err) {
+    console.error('Error fetching tickets', err)
   }
-])
+}
 
 const addTicket = (ticket) => {
   tickets.value.unshift(ticket)
@@ -79,4 +73,7 @@ const statusColor = (status = 'pending') => {
   }
   return map[status.toLowerCase()] ?? 'red'
 }
+
+onMounted(fetchTickets)
 </script>
+<style scoped></style>

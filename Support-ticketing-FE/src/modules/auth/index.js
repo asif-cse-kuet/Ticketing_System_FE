@@ -8,5 +8,10 @@ export default [
     path: 'register',
     component: () => import('./pages/RegisterPage.vue'),
     meta: { guestOnly: true }
-  }
+  },
+  {
+    path: 'logout',
+    component: () => import('./pages/LoginPage.vue'),
+    meta: { guestOnly: true }
+  },
 ]

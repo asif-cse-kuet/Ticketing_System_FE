@@ -24,14 +24,14 @@
             filled
             v-model="form.category"
             label="Category"
-            :options="['Technical', 'Billing', 'General']"
+            :options="['technical', 'billing', 'general']"
             :rules="[val => !!val || 'Category is required']"
           />
           <q-select
             filled
             v-model="form.priority"
             label="Priority"
-            :options="['Low', 'Medium', 'High']"
+            :options="['low', 'medium', 'high']"
             :rules="[val => !!val || 'Priority is required']"
           />
         </q-card-section>
@@ -47,6 +47,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { ticketService } from 'src/services/tickets'
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false }
@@ -71,16 +72,14 @@ const form = ref({
 const submitForm = async () => {
   const isValid = await ticketFormRef.value?.validate()
   if (!isValid) return
-
-  const ticket = {
-    id: Date.now(),
-    ...form.value,
-    status: 'pending'
+  try {
+    const { data } = await ticketService.create(form.value)
+    emit('created', data.ticket)
+    dialogModel.value = false
+    resetForm()
+  } catch (err) {
+    console.error('Failed to create ticket', err)
   }
-
-  emit('created', ticket)
-  dialogModel.value = false
-  resetForm()
 }
 
 const resetForm = () => {

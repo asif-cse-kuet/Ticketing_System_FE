@@ -48,13 +48,13 @@ async function handleLogin () {
   loading.value = true
 
   const success = await authStore.login({ email: email.value, password: password.value })
-
   loading.value = false
-
-  if (success) {
-    router.push('/tickets')
+  if (success?.status === 200) {
+    router.push('tickets')
+    console.log('working')
   } else {
     error.value = 'Invalid credentials or server error.'
   }
 }
+
 </script>

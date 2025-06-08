@@ -1,16 +1,23 @@
-import client from 'src/services/client'
+//src>modules>auth>services>authService.js
+import { client } from 'src/services/client'
+import { useAuthStore } from '../stores/authStore'
 
 export default {
   async login (credentials) {
-    await client().get('/sanctum/csrf-cookie', { withCredentials: true })
-    return client().post('/login', credentials, { withCredentials: true })
+    const authStore = useAuthStore()
+    const response = await client.post('/auth/login', credentials)
+    authStore.setToken(response.data.token)
+    authStore.setUser(response.data.user)
+    return response
   },
 
   async logout () {
-    return client().post('/logout', {}, { withCredentials: true })
+    const authStore = useAuthStore()
+    await client.post('/auth/logout')
+    authStore.clearToken()
   },
 
   async getCurrentUser () {
-    return client().get('/api/user') // Adjust this if your route is different
+    return client.get('/user')
   }
 }
