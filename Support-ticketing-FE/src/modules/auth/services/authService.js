@@ -18,6 +18,6 @@ export default {
   },
 
   async getCurrentUser () {
-    return client.get('/user')
+    return client.get('/auth/user')
   }
 }
